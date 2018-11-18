@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,4 +14,15 @@
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::post('/', function(Request $request) {
+    //
+    dd($request->get('url'));
+
+    // Valider l'url
+    // Vérifier si l'url a été raccourcié et la retourner
+    // Sinon  créé une nouvelle short url
+
+    // Félicitations voici l'url raccourcie
 });
