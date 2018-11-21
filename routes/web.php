@@ -1,6 +1,8 @@
 <?php
 
+use App\Url;
 use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,13 +18,42 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/', function(Request $request) {
-    //
-    dd($request->get('url'));
-
+Route::post('/', function() {
+	$url = request('url');
+    
     // Valider l'url
+    $validation = Validator::make(compact('url'),
+    							  ['url' => ['required', 'url']]
+    							  )->validate(); // Valide et redirige vers la page précédente
+  
     // Vérifier si l'url a été raccourcié et la retourner
-    // Sinon  créé une nouvelle short url
+	$record = Url::whereUrl($url)->first();
 
+	if($record) {
+		return view('result', ['shortened' => $record->shortened, 'generated_at' => new \DateTime($record->generated_at)]);
+	}
+
+
+    // Sinon  créé une nouvelle short url
+	$row = Url::create([
+		'url' => $url,
+		'shortened' => Url::getUniqueShortUrl(),
+		'generated_at' => new DateTime()
+	]);
+
+	if($row) {
+
+		return view('result', ['shortened' => $row->shortened, 'generated_at' => new \DateTime($row->generated_at)]);
+	}
     // Félicitations voici l'url raccourcie
+});
+
+Route::get('/{shortened}', function($shortened) {
+	$url = Url::whereShortened($shortened)->first();
+	
+	if($url) {
+		return redirect($url->url);
+	} else {
+		return Redirect::to('/');
+	}
 });
