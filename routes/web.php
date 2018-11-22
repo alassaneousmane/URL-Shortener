@@ -57,3 +57,8 @@ Route::get('/{shortened}', function($shortened) {
 		return Redirect::to('/');
 	}
 });
+
+Route::get('/TOURE_AA', function(){
+	$issue = 'PROCASTINATION';
+	return view('perso.toure_aa', compact('issue'));
+});
