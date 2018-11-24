@@ -6,6 +6,6 @@
 <a href="{{ config('app.url') }}/{{ $shortened }}"> {{ config('app.url') }}/{{ $shortened }}</a>
 <p>{{ $generated_at->format('F, j Y, H:i:s') }}</p>
 <hr>
-<a href="http://localhost:8000">Retour à l'accueil</a>
+<a href="{{ route('home') }}">Retour à l'accueil</a>
 
 @stop
