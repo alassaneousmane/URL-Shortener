@@ -14,51 +14,14 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::post('/', function() {
-	$url = request('url');
-    
-    // Valider l'url
-    $validation = Validator::make(compact('url'),
-    							  ['url' => ['required', 'url']]
-    							  )->validate(); // Valide et redirige vers la page précédente
-  
-    // Vérifier si l'url a été raccourcié et la retourner
-	$record = Url::whereUrl($url)->first();
+Route::get('/', 'UrlsController@create')->name('home');
 
-	if($record) {
-		return view('result', ['shortened' => $record->shortened, 'generated_at' => new \DateTime($record->generated_at)]);
-	}
+Route::post('/', 'UrlsController@store');
 
+Route::get('/{shortened}', 'UrlsController@show');
 
-    // Sinon  créé une nouvelle short url
-	$row = Url::create([
-		'url' => $url,
-		'shortened' => Url::getUniqueShortUrl(),
-		'generated_at' => new DateTime()
-	]);
-
-	if($row) {
-
-		return view('result', ['shortened' => $row->shortened, 'generated_at' => new \DateTime($row->generated_at)]);
-	}
-    // Félicitations voici l'url raccourcie
-});
-
-Route::get('/{shortened}', function($shortened) {
-	$url = Url::whereShortened($shortened)->first();
-	
-	if($url) {
-		return redirect($url->url);
-	} else {
-		return Redirect::to('/');
-	}
-});
-
-Route::get('/TOURE_AA', function(){
-	$issue = 'PROCASTINATION';
-	return view('perso.toure_aa', compact('issue'));
-});
+Route::get('/TOURE_AA/{issue}', 'PersosController@say');
