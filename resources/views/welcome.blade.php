@@ -4,7 +4,7 @@
 @section('content')
 
 
- <form method="post" action="/" class="form-signin" style="margin-top: 360px">
+ <form method="post" action="/" class="form-signin" style="margin-top: 400px">
      <img class="mb-4 img-fluid" src="https://cdn.codeclouds.com/wp-content/uploads/2017/05/017_Know-Why-Laravel-is-Considered-the-Best-PHP-Framework_1200630.jpg"
           alt="" width="170" height="120">
 
